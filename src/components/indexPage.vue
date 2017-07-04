@@ -1,12 +1,15 @@
 <template>
   <div class="hello">
-    {{ index }}
+    {{ positionServe }}
     <button @click="ok">OK</button>
   </div>
 </template>
 
 <script>
 import * as wilddog from 'wilddog'
+import phaser from 'phaser-ce'
+
+console.log(phaser)
 
 var config = {
   syncURL: 'https://tbs.wilddogio.com'
@@ -19,20 +22,30 @@ export default {
   name: 'hello',
   data () {
     return {
-      index: 0
+      positionServe: {
+        x: 0,
+        y: 0
+      },
+      position: {
+        x: 0,
+        y: 0
+      }
     }
   },
   mounted () {
     const self = this
     ref.on('value', (snapshot) => {
-      self.index = snapshot.val().index
+      self.positionServe = snapshot.val().position
     })
   },
   methods: {
     ok () {
       const self = this
       ref.set({
-        index: self.index++
+        position: {
+          x: self.position.x++,
+          y: self.position.y++
+        }
       })
     }
   }
